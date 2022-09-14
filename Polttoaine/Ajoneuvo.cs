@@ -13,12 +13,7 @@ namespace Polttoaine
         // lisää keskikulutus
         public double Keskikulutus { get; set; }
 
-        public string Nimi { get; set; }
-
-        // nimi
-        // merkki
-        // malli
-        // id 0..1...2..
+        public string Malli { get; set; }
 
         // method / function => toiminnallisuus
 
@@ -30,7 +25,7 @@ namespace Polttoaine
             Polttoaineenmaara = 5; // oletusarvot
             Polttoainetankki = 50;
             Keskikulutus = 7.8;
-            Nimi = nimi;
+            Malli = nimi;
         }
 
         public void Tankkaus()
