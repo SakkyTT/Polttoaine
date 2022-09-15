@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Polttoaine
 {
@@ -13,19 +14,29 @@ namespace Polttoaine
             // luodaan "ajoneuvo"-luokasta objekti
             // tarvitaan tietorakenne
             // Lista, tai taulukko
+            // 0 1 2 3 4 5 6
             List<Ajoneuvo> autot = new List<Ajoneuvo>();
-            autot.Add(new Ajoneuvo());
+            autot.Add(new Ajoneuvo("Default Car"));
             // Ajoneuvo auto1 = new Ajoneuvo();
             string input;
             int aktiivinenAuto = 0; // listan indeksi
+            bool continueLoop = true;
 
-            while (true)
+            while (continueLoop)
             {
+                Console.WriteLine(); // tyhjä rivi
+                Console.WriteLine(); // tyhjä rivi
+                Console.WriteLine($"Aktiivinen auto on: {autot[aktiivinenAuto].Nimi}");
+                Console.WriteLine(); // tyhjä rivi
                 Console.WriteLine("T <= Tankkaa ajoneuvo");
                 Console.WriteLine("A <= Aja ajoneuvolla");
                 Console.WriteLine("U <= Lisää ajoneuvo");
+                Console.WriteLine("V <= Vaihda ajoneuvo");
+                Console.WriteLine("K <= Näytä kilometrit");
+                Console.WriteLine("S <= Lopeta sovellus");
                 Console.Write("Valitse toiminto: ");
                 input = Console.ReadLine();
+                Console.WriteLine(); // tyhjä rivi
 
                 // rakenne, jolla suoritetaan käyttäjän haluama toiminto
                 switch (input)
@@ -40,7 +51,33 @@ namespace Polttoaine
                         break;
                     case "U":
                         // kysytään käyttäjältä nimi
-                        autot.Add(new Ajoneuvo("Nimi")); // constructor parametri
+                        Console.Write("Anna uuden ajoneuvon nimi: ");
+                        input = Console.ReadLine();
+                        autot.Add(new Ajoneuvo(input)); // constructor parametri
+                        break;
+                    case "S":
+                        continueLoop = false;
+                        break;
+                    case "K":
+                        autot[aktiivinenAuto].NaytaKilometrit(); // Uusi metodi
+                        break;
+                    case "V":
+                        for (int i = 0; i < autot.Count; i++)
+                        {
+                            Console.WriteLine(i + 1 + $": {autot[i].Nimi}");
+                        }
+                        int test = 1;
+                        bool onnistui = false;
+                        do
+                        {
+                            Console.Write("Syötä auton numero: ");
+                            input = Console.ReadLine();
+
+                            onnistui = int.TryParse(input, out test);
+                            // lisää tarkistus, että käyttäjä ei anna kirjaimia
+                        } while (!onnistui || test < 1 || test > autot.Count); // 0 -> listan loppuun
+                        // ei hyväksytä lukuja, joita ei näytetä käyttäjälle
+                        aktiivinenAuto = int.Parse(input) - 1;
                         break;
                     default: // käyttäjä ei syöttänyt hyväksyttävää arvoa
                         break;
